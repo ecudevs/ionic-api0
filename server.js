@@ -3,6 +3,9 @@ const http = require("http");
 const process = require("process");
 const bodyParser = require("body-parser");
 
+const mongoose = require("mongoose");
+const productoDAO = require("./modelos/productoDAO");
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -11,6 +14,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // app.get("*", (req, res) => {
 //   res.send("Hello world!");
 // });
+
+app.get("/producto", (req, res) => {
+  productoDAO.getProducto(res);
+});
+
+app.get("/producto/promesa", (req, res) => {
+  productoDAO
+    .getProductoPromesa()
+    .then(productos => res.send({ success: true, productos }))
+    .catch(error => res.send({ success: false, error }));
+});
+
+app.post("/producto", (req, res) => {
+  productoDAO
+    .agregarProducto(req.body)
+    .then(producto => res.send({ success: true, producto }))
+    .catch(error => res.send({ success: false, error }));
+});
+
+app.get("/", (req, res) => {
+  res.send("Hola! mundo!");
+});
 
 app.get("/hello", (req, res) => {
   res.send("Hola!");
@@ -32,5 +57,10 @@ const port = process.env.PORT || "9000";
 app.set("port", port);
 
 const server = http.createServer(app);
+
+// CONECTAMOS MONGO
+mongoose.connect("mongodb://localhost:27017/ecommerce", {
+  useNewUrlParser: true
+});
 
 server.listen(port, () => console.log(`Magic Happens on port:${port}`));
