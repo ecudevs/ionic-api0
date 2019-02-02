@@ -5,8 +5,10 @@ const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 const productoDAO = require("./modelos/productoDAO");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,6 +31,13 @@ app.get("/producto/promesa", (req, res) => {
 app.post("/producto", (req, res) => {
   productoDAO
     .agregarProducto(req.body)
+    .then(producto => res.send({ success: true, producto }))
+    .catch(error => res.send({ success: false, error }));
+});
+
+app.put("/producto", (req, res) => {
+  productoDAO
+    .actualizarProducto(req.body)
     .then(producto => res.send({ success: true, producto }))
     .catch(error => res.send({ success: false, error }));
 });
