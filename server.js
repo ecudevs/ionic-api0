@@ -18,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // });
 
 app.get("/producto", (req, res) => {
+  // para ejectuar error en cliente
+  // res.send({ success: false, error: "Error 404!" });
   productoDAO.getProducto(res);
 });
 
@@ -68,8 +70,15 @@ app.set("port", port);
 const server = http.createServer(app);
 
 // CONECTAMOS MONGO
-mongoose.connect("mongodb://localhost:27017/ecommerce", {
-  useNewUrlParser: true
-});
+//
+mongoose.connect(
+  "mongodb://heroku_9215ft0h:67arb3hcjoni2751cl8qrjfd1q@ds221115.mlab.com:21115/heroku_9215ft0h",
+  {
+    useNewUrlParser: true
+  }
+);
+// mongoose.connect("mongodb://localhost:27017/ecommerce", {
+//   useNewUrlParser: true
+// });
 
 server.listen(port, () => console.log(`Magic Happens on port:${port}`));

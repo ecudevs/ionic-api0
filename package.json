@@ -4,7 +4,9 @@
   "description": "Api ionic app ecudevs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "postinstall": "node server.js"
   },
   "author": "Thian Lopez Z",
   "license": "ISC",
